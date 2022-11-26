@@ -9,7 +9,7 @@ const char *ssid = WIFI_SSID;
 const char *password = WIFI_PASS;
 
 // Your Domain name with URL path or IP address with path
-String serverName = "http://192.168.1.85:3000/test.bmp";
+String serverName = FULL_BAUBLE_URL;
 
 // the following variables are unsigned longs because the time, measured in
 // milliseconds, will quickly become a bigger number than can be stored in an int.
@@ -62,13 +62,16 @@ void loop()
         Serial.print("HTTP Response code: ");
         Serial.println(httpResponseCode);
         const char *payload = (http.getString()).c_str(); // get the stream of bytes
-        const int offset = 54;
-        for (int32_t i = 0; i < TFT_HEIGHT; i++)
+
+        const int offset = 54; // TODO dynamically get this from the file and then everything should work!
+        int counter = 0;
+        for (int32_t i = 0; i < TFT_WIDTH; i++)
         {
-          for (int32_t j = 0; j < TFT_WIDTH; j++)
+          for (int32_t j = 0; j < TFT_HEIGHT; j++)
           {
-            int currentIndex = offset + (3 * TFT_WIDTH * i) + (j * 3);
-            tft.drawPixel(TFT_WIDTH-j-1, i, tft.color565(payload[currentIndex],payload[currentIndex + 1],payload[currentIndex + 2]));  // blue green red
+            // tft.drawPixel(j, i, tft.color565(0, 255, 0)); // blue green red)
+            int currentIndex = offset + (counter++ * 3);
+            tft.drawPixel(i, j, tft.color565(payload[currentIndex], payload[currentIndex + 1], payload[currentIndex + 2])); // blue green red
           }
         }
       }
