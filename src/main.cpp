@@ -17,7 +17,7 @@ AsyncWebServer server(80); // Object of WebServer(HTTP port, 80 is defult)
 // the following variables are unsigned longs because the time, measured in
 // milliseconds, will quickly become a bigger number than can be stored in an int.
 unsigned long lastTime = 0;
-unsigned long timerDelay = 60000;
+unsigned long timerDelay = 60000 * 30;
 
 TFT_eSPI tft = TFT_eSPI(); // Invoke library, pins defined in User_Setup.h
 
